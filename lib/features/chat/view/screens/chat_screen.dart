@@ -54,7 +54,19 @@ class _ChatScreenState extends State<ChatScreen> {
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(value.chatsList[index].receiver ?? "",style: Theme.of(context).textTheme.titleSmall,),
+                  FutureBuilder(
+                    future: value.getUserName(value.chatsList[index].receiver!),
+                    builder: (context,snapshot){
+                      if(snapshot.connectionState == ConnectionState.done){
+                        return Text(snapshot.data ?? "",style: Theme.of(context).textTheme.titleSmall,);
+                      }
+                      else{
+                        return Text(
+                              "User",
+                              style: Theme.of(context).textTheme.titleSmall,
+                            );
+                      }
+                    },),
                   value.chatsList[index].lastMessage == null || value.chatsList[index].lastMessage!.isEmpty   ? 
                   Text("You may start chatting",style: TextStyle(color: Colors.grey.shade400,fontSize: 10),) :
                   Text(value.chatsList[index].lastMessage!,style: Theme.of(context).textTheme.bodySmall,),
