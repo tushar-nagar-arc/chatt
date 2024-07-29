@@ -37,7 +37,7 @@ class ChatProvider with ChangeNotifier{
             "lastMessage": element.data()['lastMessage'],
             "members": element.data()['members'],
             "chatId" : element.id,
-            "receiver": element.data()['receiver'] ?? "",
+            "receiver": getReceiverId(element.data()['members']),
           }
           )
         );
@@ -110,11 +110,11 @@ class ChatProvider with ChangeNotifier{
 
   Future addNewChat(String receiver,String sender) async {
     try{
-      String receiverName = await getUserName(receiver) ?? "";
+      // String receiverName = await getUserName(receiver) ?? "";
       final response = await _firebaseFirestore.collection(chatCollection).add({
         "members": [receiver, sender],
         "lastMessage": "",
-        "receiver": receiverName
+        // "receiver": receiverName
       });
       _firebaseFirestore
           .collection(chatCollection)
@@ -137,15 +137,14 @@ class ChatProvider with ChangeNotifier{
      }
      catch(e){
       print("$e");
-     }
-     
+     } 
   }
 
-  // String getReceiverId(List<dynamic> members){
-  //   int index = members.indexWhere((element)=> element == LocalStorage.getUserInfo()!.userId!);
-  //   members.removeAt(index);
-  //   return members[0];
-  // }
+  String getReceiverId(List<dynamic> members){
+    int index = members.indexWhere((element)=> element == LocalStorage.getUserInfo()!.userId!);
+    members.removeAt(index);
+    return members[0];
+  }
 
   Future markAsRead(String chatId,String messageId) async {
     try{
