@@ -42,7 +42,19 @@ class _ChatDetailState extends State<ChatDetail> {
     
     
     return Scaffold(
-      appBar: AppBar(title: Text(widget.chatModel.receiver!),),
+      appBar: AppBar(title: FutureBuilder(
+                    future: context.read<ChatProvider>().getUserName(widget.chatModel.receiver!),
+                    builder: (context,snapshot){
+                      if(snapshot.connectionState == ConnectionState.done){
+                        return Text(snapshot.data ?? "",style: Theme.of(context).textTheme.titleSmall,);
+                      }
+                      else{
+                        return Text(
+                              "User",
+                              style: Theme.of(context).textTheme.titleSmall,
+                            );
+                      }
+                    },),),
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.9,
