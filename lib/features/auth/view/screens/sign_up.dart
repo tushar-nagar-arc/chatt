@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chatt/features/auth/providers/auth.dart';
+import 'package:chatt/features/auth/view/screens/sign_in.dart';
 import 'package:chatt/features/auth/view/widgets/text_field.dart';
 import 'package:chatt/features/chat/view/screens/chat_screen.dart';
 import 'package:chatt/helper/snack_bar.dart';
@@ -99,7 +100,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                   const SizedBox(height: 20,),
                   TextButton(onPressed: (){
-                      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => SignUp()));
+                      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => SignIn()));
                     }, child: const Text("Back to login"),),
                 ],
               ),
